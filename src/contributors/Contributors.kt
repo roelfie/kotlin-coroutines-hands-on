@@ -90,6 +90,9 @@ interface Contributors: CoroutineScope {
                 }.setUpCancellation()
             }
             NOT_CANCELLABLE -> { // Performing requests in a non-cancellable way
+                // Since the 'NotCancellable' implementation adds every coroutine to the GlobalScope
+                // (which is not a child of the coroutineScope created by below 'launch') cancelling
+                // the outer coroutine scope will not cancel the coroutines started in loadContributorsNotCancellable.
                 launch {
                     val users = loadContributorsNotCancellable(service, req)
                     updateResults(users, startTime)
