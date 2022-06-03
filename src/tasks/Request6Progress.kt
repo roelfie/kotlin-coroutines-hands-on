@@ -12,15 +12,15 @@ suspend fun loadContributorsProgress(
         .also { logRepos(req, it) }
         .bodyList()
 
-    var users = emptyList<User>()
+    var allUsers = emptyList<User>()
     var ix = 0
     repos.forEach { repo ->
-        val bodyList: List<User> = service
+        val users = service
             .getRepoContributors(req.org, repo.name)
             .also { logUsers(repo, it) }
             .bodyList()
-        users = (users + bodyList).aggregate()
+        allUsers = (allUsers + users).aggregate()
         ix++
-        updateResults(users, ix == repos.size)
+        updateResults(allUsers, ix == repos.size)
     }
 }

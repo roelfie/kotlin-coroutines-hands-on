@@ -3,7 +3,10 @@ package tasks
 import contributors.*
 import kotlinx.coroutines.*
 
-suspend fun loadContributorsConcurrent(service: GitHubService, req: RequestData): List<User> = coroutineScope {
+suspend fun loadContributorsConcurrent(
+    service: GitHubService,
+    req: RequestData):
+        List<User> = coroutineScope {
     val repos = service
         .getOrgRepos(req.org)
         .also { logRepos(req, it) }
