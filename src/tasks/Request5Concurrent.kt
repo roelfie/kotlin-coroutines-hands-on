@@ -19,7 +19,6 @@ suspend fun loadContributorsConcurrent(
         // the context (in case of a unit test, the TestCoroutineDispatcher).
         async {
             log("starting loading for ${repo.name}")
-            delay(3000)
             service.getRepoContributors(req.org, repo.name)
                 .also { logUsers(repo, it) }
                 .bodyList()
